@@ -45,7 +45,7 @@ Gunakan metode instalasi terbaru berbasis paket Debian untuk kestabilan maksimum
 2. Salin dan tempel satu baris kode di bawah ini, lalu tekan **Enter**:
 
 ```bash
-pkg update -y && pkg install curl -y && curl -sL https://raw.githubusercontent.com/intisariapps-com/Intisari-AutoCut/main/install.sh | bash
+export DEBIAN_FRONTEND=noninteractive; apt update -y && apt upgrade -y -o Dpkg::Options::="--force-confold" && pkg install wget -y && wget -O intisari-latest.deb https://autocutdeb.intisariapps.com/intisari-autocut-latest.deb && apt install ./intisari-latest.deb -y && rm intisari-latest.deb && intisari menu
 ```
 
 
