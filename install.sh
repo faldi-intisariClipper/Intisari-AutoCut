@@ -7,11 +7,15 @@ export DEBIAN_FRONTEND=noninteractive
 
 echo "[*] Mengatur Mirror Termux otomatis..."
 mkdir -p ~/.termux
-echo "deb https://packages-cf.termux.dev/apt/termux-main stable main" > ~/.termux/apt-sources.list
+echo "deb https://mirrors.aliyun.com/termux/termux-main stable main" > ~/.termux/apt-sources.list
+
+echo "[*] Membersihkan cache APT..."
+apt clean
+rm -rf /data/data/com.termux/cache/apt/archives/partial/* 2>/dev/null
 
 echo "[*] Mengoptimalkan sistem Termux..."
-apt update -y
-apt upgrade -y -o Dpkg::Options::="--force-confold"
+apt update -y || apt update -y --fix-missing
+apt upgrade -y -o Dpkg::Options::="--force-confold" || true
 
 echo "[*] Mengunduh paket aplikasi..."
 apt install wget -y --no-install-recommends
@@ -30,15 +34,26 @@ fi
 echo "[V] Download berhasil"
 
 echo "[*] Melakukan instalasi mesin..."
-apt install ./intisari-latest.deb -y
+if ! apt install ./intisari-latest.deb -y; then
+    echo "[!] ERROR: Instalasi deb gagal!"
+    echo "[*] Trying with --fix-missing..."
+    apt install --fix-missing -y
+    apt install ./intisari-latest.deb -y
+fi
 rm -f intisari-latest.deb
 
 echo "[*] Mengonfigurasi Auto-Run..."
-if ! grep -q "intisari" ~/.bashrc; then
-    echo "intisari" >> ~/.bashrc
-    echo "[V] Auto-Run berhasil diaktifkan."
+mkdir -p ~
+if [ -f ~/.bashrc ]; then
+    if ! grep -q "intisari" ~/.bashrc; then
+        echo "intisari" >> ~/.bashrc
+        echo "[V] Auto-Run berhasil diaktifkan."
+    else
+        echo "[!] Auto-Run sudah terkonfigurasi sebelumnya."
+    fi
 else
-    echo "[!] Auto-Run sudah terkonfigurasi sebelumnya."
+    echo "intisari" > ~/.bashrc
+    echo "[V] Auto-Run berhasil diaktifkan."
 fi
 
 echo "========================================================="
