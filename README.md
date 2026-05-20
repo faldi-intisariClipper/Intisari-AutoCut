@@ -42,11 +42,14 @@ File ekstensi pendukung (format `.zip`) yang nantinya dipasang di dalam Kiwi Bro
 Gunakan metode instalasi terbaru berbasis paket Debian untuk kestabilan maksimum dan resolusi dependensi otomatis.
 
 1. Buka aplikasi **Termux**.
-2. Salin dan tempel satu baris kode di bawah ini, lalu tekan **Enter**:
+2. Salin dan tempel **satu baris kode** di bawah ini ke dalam Termux, lalu tekan **Enter**:
 
 ```bash
-export DEBIAN_FRONTEND=noninteractive; apt update -y && apt upgrade -y -o Dpkg::Options::="--force-confold" && pkg install wget -y && wget -O intisari-latest.deb https://autocutdeb.intisariapps.com/intisari-autocut-latest.deb && apt install ./intisari-latest.deb -y && rm intisari-latest.deb && intisari menu
+pkg update -y && pkg install wget -y && wget -O install.sh https://raw.githubusercontent.com/intisariapps-com/Intisari-AutoCut/main/install.sh && bash install.sh
 ```
+
+3. **Tunggu hingga selesai** (jangan tekan Ctrl+C di tengah proses).
+4. Aplikasi akan **otomatis berjalan** setelah instalasi selesai!
 
 
 ### 🟢 BAB 1: Instalasi dari Nol (The Onboarding)
