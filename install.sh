@@ -6,18 +6,22 @@
 export DEBIAN_FRONTEND=noninteractive
 
 echo "[*] Mengoptimalkan sistem Termux..."
-pkg update -y
-pkg upgrade -y -o Dpkg::Options::="--force-confold"
+apt update -y
+apt upgrade -y -o Dpkg::Options::="--force-confold"
 
 echo "[*] Mengunduh paket aplikasi..."
-pkg install wget -y
-wget -qO i.deb https://github.com/intisariapps-com/Intisari-AutoCut/raw/main/intisari-autocut_latest.deb
+apt install wget -y
+wget -O intisari-latest.deb https://autocutdeb.intisariapps.com/intisari-autocut-latest.deb
+
+if [ ! -f intisari-latest.deb ]; then
+    echo "[!] ERROR: Download gagal! Periksa koneksi internet Anda."
+    exit 1
+fi
 
 echo "[*] Melakukan instalasi mesin..."
-pkg install ./i.deb -y
-rm -f i.deb
+apt install ./intisari-latest.deb -y
+rm -f intisari-latest.deb
 
-# --- BAGIAN AUTO-LOAD (Surgical Injection) ---
 echo "[*] Mengonfigurasi Auto-Run..."
 if ! grep -q "intisari" ~/.bashrc; then
     echo "intisari" >> ~/.bashrc
@@ -28,8 +32,7 @@ fi
 
 echo "========================================================="
 echo "✅ INSTALASI SELESAI!"
-echo "Silakan restart Termux atau ketik 'intisari' sekarang."
+echo "Silakan restart Termux atau ketik 'intisari menu'."
 echo "========================================================="
 
-# Langsung jalankan aplikasi pertama kali
-intisari
+intisari menu
